@@ -6,10 +6,18 @@
             </div>
             <div class="pull-right fnav">
                 <ul class="footer-social">
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <?php
+                        $args = array( 'post_type' => 'media');
+                        $loop = new WP_Query( $args );
+                        while ( $loop->have_posts() ) : $loop->the_post();
+                    ?>
+
+                        <li><a href="<?php echo get_post_meta( get_the_ID(), 'url', true ); ?>"><i class="<?php echo get_post_meta( get_the_ID(), 'icon', true )  ?>"></i></a></li>
+
+                    <?php
+                        endwhile;
+                    ?>
+                    
                 </ul>
             </div>
         </div>

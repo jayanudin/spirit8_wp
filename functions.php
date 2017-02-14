@@ -204,8 +204,59 @@ function cptui_register_my_cpts_testimoni() {
 
 add_action( 'init', 'cptui_register_my_cpts_testimoni' );
 
+function cptui_register_my_cpts_media() {
+
+    /**
+     * Post Type: Media.
+     */
+
+    $labels = array(
+        "name" => __( 'Media', '' ),
+        "singular_name" => __( 'Media', '' ),
+    );
+
+    $args = array(
+        "label" => __( 'Media', '' ),
+        "labels" => $labels,
+        "description" => "",
+        "public" => true,
+        "publicly_queryable" => true,
+        "show_ui" => true,
+        "show_in_rest" => false,
+        "rest_base" => "",
+        "has_archive" => false,
+        "show_in_menu" => true,
+        "exclude_from_search" => false,
+        "capability_type" => "post",
+        "map_meta_cap" => true,
+        "hierarchical" => false,
+        "rewrite" => array( "slug" => "media", "with_front" => true ),
+        "query_var" => true,
+        "supports" => array( "title", "editor", "thumbnail" ),
+    );
+
+    register_post_type( "media", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_media' );
 
 
+function meta_about( $meta_boxes_about ) {
+    $meta_boxes_about[] = array(
+        'title'      => __( 'About List', 'textdomain' ),
+        'pages'      => array('page'),
+        'fields'     => array(
+            array(
+                'id'   => 'list_1',
+                'name' => __( 'Thumbnail Icon', 'textdomain' ),
+                'type' => 'text',
+            ),
+        ),
+    );
+    return $meta_boxes_about;
+}
+
+add_filter( 'rwmb_meta_boxes', 'meta_about' );
 
 function meta_service( $meta_boxes_service ) {
     $meta_boxes_service[] = array(
@@ -300,6 +351,28 @@ function meta_testimoni( $meta_boxes_testimoni) {
 
 add_filter( 'rwmb_meta_boxes', 'meta_testimoni' );
 
+function meta_media( $meta_boxes_media) {
+    $meta_boxes_media[] = array(
+        'title'      => __( 'Media', 'textdomain' ),
+        'post_types' => 'media',
+        'fields'     => array(
+            array(
+                'id'      => 'url',
+                'name'    => __( 'Url Social Media', 'textdomain' ),
+                'type'    => 'text',
+            ),
+            array(
+                'id'      => 'icon',
+                'name'    => __( 'Icon Class Social Media', 'textdomain' ),
+                'type'    => 'text',
+            ),
+        ),
+    );
+    return $meta_boxes_media;
+
+}
+
+add_filter( 'rwmb_meta_boxes', 'meta_media' );
 
 add_theme_support( 'post-thumbnails');
-set_post_thumbnail_size( 800, 800, true );
+set_post_thumbnail_size( 800, 800);
